@@ -4,8 +4,8 @@
   "description": "Use your phone as a gamepad",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "test": "nodemon index.js test"
+    "start": "npx electron .",
+    "test": "nodemon --exec 'electron . test' --ext 'js mjs json html css'"
   },
   "repository": {
     "type": "git",
