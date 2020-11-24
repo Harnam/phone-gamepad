@@ -4,8 +4,16 @@
         <title>
             PhoneGamepad Server
         </title>
+        <script>
+            require('../renderer.js');
+        </script>
     </head>
     <body>
         <h1>PhoneGamepad Server</h1>
+        <button id="serverbtn" onclick="changeServer()">Start Server</button>
+        <form>
+            <input type="number" id="port" value="15987" placeholder="Enter port number" />
+            <button id="portbtn" onclick="changePort()">Change Port</button>
+        </form>
     </body>
 </html>

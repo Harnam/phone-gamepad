@@ -1,16 +1,7 @@
-const { app , BrowserWindow } = require('electron');
-var express = require('express');
+const { app , BrowserWindow, ipcMain } = require('electron');
+const { startserver } = require('./commands');
 
-var exp = express();
-
-var port = process.env.port || 15987;
-
-exp.use(express.static(__dirname + '/public'));
-
-exp.listen(port, (err) => {
-    if (err) throw err;
-    console.log("App running on port: " + port);
-});
+var com = require('./commands');
 
 createwindow = () => {
     const win = new BrowserWindow({
@@ -21,7 +12,7 @@ createwindow = () => {
         }
     });
 
-    win.loadURL('http://localhost:' + port);
+    win.loadFile(__dirname + '/public/index.html')
     win.focus();
     win.webContents.openDevTools();
 };
@@ -35,4 +26,16 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
     if(BrowserWindow.getAllWindows().length === 0)
         createwindow();
+});
+
+ipcMain.on('startserver', (Event) => {
+    com.startserver(); 
+});
+
+ipcMain.on('stopserver', (Event) => {
+    com.stopserver(); 
+});
+
+ipcMain.on('changeport', (Event, arg) => {
+    com.changeport(arg); 
 });
