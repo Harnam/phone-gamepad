@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npx electron .",
-    "test": "nodemon --exec 'electron . test' --ext 'js mjs json html css'"
+    "test": "javac jrobot/robot.java && nodemon --exec 'electron . test' --ext 'js mjs json html css java javac'"
   },
   "repository": {
     "type": "git",
