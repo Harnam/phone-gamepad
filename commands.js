@@ -2,11 +2,13 @@ var express = require('express');
 
 var exp = express();
 exp.use(require('body-parser').json());
+exp.use(require('cors')());
 
 var { spawn } = require('child_process');
 const { Stream } = require('stream');
 
 var java;
+var socket;
 
 var port = 15987;
 
@@ -20,11 +22,18 @@ startserver = () => {
         console.log("App running on port: " + port);
         java = spawn("java", [ "-cp", "jrobot", "robot" ]);
         startJava();
+        socket = require('socket.io')(server, {
+            cors: {
+              origin: '*',
+            }
+        });
+        startSocket();
     });
     isStarted = true;
 };
 
 stopserver = () => {
+    socket = null;
     server.close();
     java.kill('SIGINT');
     isStarted = false;
@@ -58,5 +67,18 @@ startJava = () => {
         console.log(`child process exited with code ${code}`);
     });
     //process.stdin.pipe(java.stdin);
-    java.stdin.write("hello there general kenobi\n");
+    //java.stdin.write("hello there general kenobi\n");
+}
+
+startSocket = () => {
+    socket.on('connection', client => {
+        console.log("client connected");
+        client.on('disconnect', () => {
+            console.log("client disconneectd");
+        });
+        client.on('btn', (data) => {
+            console.log((new Date).getTime());
+            java.stdin.write(data+"\n");
+        })
+    });
 }

@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>Gamepad Web</title>
+        <script src="../../node_modules/socket.io/client-dist/socket.io.js"></script>
+        <script>
+            var socket;
+            startsocket = () => {
+                socket = io('ws://' + document.getElementById('url').value);
+                socketlisten();
+            }
+            socketlisten = () => {
+                socket.on('connect', () => {
+                    console.log('connected');
+                });
+            }
+            sendsocket = () => {
+                var d = new Date
+                document.getElementById('timetext1').innerHTML = "" + d.getTime();
+                socket.emit('btn', document.getElementById('val').value);
+                document.getElementById('timetext2').innerText = "" + d.getTime();
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Gamepad Web</h1>
+        <input type="text" id="url" value="192.168.1.34:15987" placeholder="Enter url" />
+        <button id="urlbtn" onclick="startsocket()">Change url</button>
+        <div>
+            <input type="text" id="val" value="" placeholder="Enter text to send" />
+            <button id="sendbtn" onclick="sendsocket()">Send Socket</button>
+        </div>
+        <p id="timetext1"></p>
+        <p id="timetext2"></p>
+    </body>
+</html>

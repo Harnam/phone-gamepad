@@ -10,8 +10,12 @@ public class robot {
         Robot robot = new Robot();
         System.out.println("Starting java file");
         while (true) {
-            String s = sc.nextLine();
+            int s = sc.nextInt();
+            System.out.println(Calendar.getInstance().getTimeInMillis());
             System.out.println(s);
+            robot.keyPress(s);
+            robot.keyRelease(s);
+            System.out.println(Calendar.getInstance().getTimeInMillis());
         }
     }
 }
